@@ -1,4 +1,4 @@
-import { FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import {
   Image,
   ScrollView,
@@ -111,34 +111,6 @@ export default function HomeEstudante() {
             </View>
           </View>
         </ScrollView>
-
-        {/* NAVBAR FIXA */}
-        <View style={styles.navbar}>
-          <TouchableOpacity style={[styles.navItem]}>
-            <Ionicons name="home" size={22} color="#4361EE" />
-            <Text style={[styles.navLabel, styles.activeLabel]}>Home</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.navItem}>
-            <Ionicons name="book" size={22} color="#c4c4c4" />
-            <Text style={styles.navLabel}>Materiais</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.navItem}>
-            <Ionicons name="clipboard" size={22} color="#c4c4c4" />
-            <Text style={styles.navLabel}>Simulados</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.navItem}>
-            <MaterialIcons name="insert-chart" size={24} color="#c4c4c4" />
-            <Text style={styles.navLabel}>Notas</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.navItem}>
-            <Ionicons name="person" size={22} color="#c4c4c4" />
-            <Text style={styles.navLabel}>Perfil</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -303,26 +275,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-
-  navbar: {
-    position: "absolute",
-    bottom: 0,
-    height: 70,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "#FFF",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-
-  navItem: {
-    alignItems: "center",
-    width: "20%",
-  },
-
-  navLabel: { fontSize: 12, color: "#c4c4c4", marginTop: 4 },
-
-  activeLabel: { color: PRIMARY },
 });
