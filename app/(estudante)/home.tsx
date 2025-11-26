@@ -1,4 +1,5 @@
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import {
   Image,
   ScrollView,
@@ -16,7 +17,6 @@ export default function HomeEstudante() {
       edges={["bottom"]}
     >
       <View style={styles.container}>
-        {/* SAFE AREA PARA PROTEGER APENAS A PARTE INFERIOR */}
         <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
           {/* HEADER */}
           <View style={styles.header}>
@@ -37,46 +37,28 @@ export default function HomeEstudante() {
             </View>
           </View>
 
-          {/* CARD DE PROGRESSO */}
-          <View style={styles.cardProgresso}>
-            <View style={styles.progressHeader}>
-              <Text style={{ fontWeight: "600", color: "#4361EE" }}>
-                Progresso
-              </Text>
-            </View>
-
-            <Text style={styles.progressText}>
-              46min <Text style={styles.progressSubText}>/ 60min</Text>
-            </Text>
-
-            <View style={styles.progressBarBg}>
-              <View style={styles.progressFill}></View>
-            </View>
-          </View>
-
-          {/* GRID DE ESTATÍSTICAS */}
-          <View style={styles.statsGrid}>
-            <View style={styles.statCard}>
+          {/* CARDS DE ESTATÍSTICAS RÁPIDAS */}
+          <View style={styles.statsContainer}>
+            <View style={styles.statCardSmall}>
               <Ionicons
-                name="checkmark-done-circle"
-                size={26}
-                color="#2ecc71"
+                name="trophy"
+                size={28}
+                color="#f1c40f"
+                style={{ marginBottom: 6 }}
               />
-              <Text style={styles.statLabel}>
-                Simulados{"\n"} <Text style={styles.statNumber}>2</Text>
-              </Text>
-            </View>
-
-            <View style={styles.statCard}>
-              <FontAwesome5 name="chart-line" size={22} color="#f39c12" />
-              <Text style={styles.statLabel}>Frequência</Text>
-              <Text style={styles.statValue}>95%</Text>
-            </View>
-
-            <View style={styles.statCard}>
-              <Ionicons name="trophy" size={26} color="#f1c40f" />
+              <Text style={styles.statNum}>9</Text>
               <Text style={styles.statLabel}>Média</Text>
-              <Text style={styles.statValue}>9</Text>
+            </View>
+
+            <View style={styles.statCardSmall}>
+              <FontAwesome5
+                name="chart-line"
+                size={28}
+                color="#f39c12"
+                style={{ marginBottom: 6 }}
+              />
+              <Text style={styles.statNum}>95%</Text>
+              <Text style={styles.statLabel}>Frequência</Text>
             </View>
           </View>
 
@@ -91,7 +73,9 @@ export default function HomeEstudante() {
               Simulados
             </Text>
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => router.push("/(estudante)/simulados")}
+            >
               <Text style={styles.linkVerTodos}>Ver todos</Text>
             </TouchableOpacity>
           </View>
@@ -105,7 +89,10 @@ export default function HomeEstudante() {
 
               <Text style={styles.courseInfo}>15 questões</Text>
 
-              <TouchableOpacity style={styles.btnIniciar}>
+              <TouchableOpacity
+                style={styles.btnIniciar}
+                onPress={() => router.push("/(estudante)/quiz")}
+              >
                 <Text style={styles.btnIniciarText}>Iniciar</Text>
               </TouchableOpacity>
             </View>
@@ -136,7 +123,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  hello: { fontSize: 24, fontWeight: "bold", color: "#FFF" },
+  hello: { fontSize: 24, fontWeight: "bold", color: "#FFF", marginTop: 8 },
   welcome: { color: "#E3E3E3", fontSize: 14 },
 
   avatar: {
@@ -148,76 +135,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "rgba(255,255,255,0.3)",
   },
-
-  cardProgresso: {
-    backgroundColor: "#FFF",
-    marginHorizontal: 20,
-    marginTop: -70,
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-
-  progressHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginBottom: 10,
-  },
-
-  progressText: {
-    fontSize: 26,
-    color: "#1f2937",
-    fontWeight: "800",
-  },
-
-  progressSubText: { fontSize: 14, color: "#999", fontWeight: "400" },
-
-  progressBarBg: {
-    width: "100%",
-    height: 8,
-    backgroundColor: "#edf2f7",
-    borderRadius: 10,
-    marginTop: 10,
-  },
-
-  progressFill: {
-    height: "100%",
-    width: "76%",
-    backgroundColor: PRIMARY,
-    borderRadius: 10,
-  },
-
-  statsGrid: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  statCard: {
-    width: "31%",
-    backgroundColor: "#FFF",
-    paddingVertical: 15,
-    borderRadius: 16,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.03,
-    shadowRadius: 10,
-    elevation: 2,
-  },
-
-  statLabel: {
-    color: "#1f2937",
-    textAlign: "center",
-    fontSize: 12,
-    marginTop: 5,
-  },
-
-  statNumber: { fontSize: 16, fontWeight: "bold", color: PRIMARY },
-  statValue: { fontSize: 16, fontWeight: "bold", color: PRIMARY },
 
   sectionHeader: {
     paddingHorizontal: 20,
@@ -274,5 +191,37 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "700",
     fontSize: 16,
+  },
+
+  statsContainer: {
+    flexDirection: "row",
+    gap: 15,
+    marginHorizontal: 20,
+    marginTop: -60,
+    zIndex: 50,
+  },
+
+  statCardSmall: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 15,
+    alignItems: "center",
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+  },
+
+  statNum: {
+    fontSize: 26,
+    fontWeight: "800",
+    color: PRIMARY,
+  },
+
+  statLabel: {
+    color: "#555",
+    marginTop: 4,
+    fontSize: 13,
   },
 });

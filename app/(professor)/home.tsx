@@ -1,278 +1,256 @@
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React from "react";
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function HomeEstudante() {
+export default function ProfessorHome() {
+  const router = useRouter();
+  const PRIMARY = "#4361ee";
+
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#f8f9fd" }}
-      edges={["bottom"]}
-    >
-      <View style={styles.container}>
-        {/* SAFE AREA PARA PROTEGER APENAS A PARTE INFERIOR */}
-        <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
-          {/* HEADER */}
-          <View style={styles.header}>
-            <View style={styles.headerTop}>
-              <View>
-                <Text style={styles.hello}>Olá, Carlito</Text>
-                <Text style={styles.welcome}>Bem-vindo!</Text>
-              </View>
+    <View style={styles.container}>
+      {/* Fundo azul do header */}
 
-              <View style={styles.avatar}>
-                <Image
-                  source={{
-                    uri: "https://api.dicebear.com/7.x/avataaars/png?seed=Felix",
-                  }}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </View>
-            </View>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.headerBackground} />
+
+        {/* Conteúdo do Header */}
+        <View style={styles.headerContent}>
+          <Text style={styles.welcome}>Olá, Prof. Fernando 👋</Text>
+          <Text style={styles.subtitle}>Gestão Acadêmica</Text>
+        </View>
+
+        {/* Cards de status */}
+        <View style={styles.statsContainer}>
+          <View style={styles.statCard}>
+            <Text style={styles.statNum}>4</Text>
+            <Text style={styles.statLabel}>Turmas</Text>
           </View>
 
-          {/* CARD DE PROGRESSO */}
-          <View style={styles.cardProgresso}>
-            <View style={styles.progressHeader}>
-              <Text style={{ fontWeight: "600", color: "#4361EE" }}>
-                Progresso
-              </Text>
-            </View>
-
-            <Text style={styles.progressText}>
-              46min <Text style={styles.progressSubText}>/ 60min</Text>
-            </Text>
-
-            <View style={styles.progressBarBg}>
-              <View style={styles.progressFill}></View>
-            </View>
+          <View style={styles.statCard}>
+            <Text style={styles.statNum}>2</Text>
+            <Text style={styles.statLabel}>Simulados Ativos</Text>
           </View>
+        </View>
 
-          {/* GRID DE ESTATÍSTICAS */}
-          <View style={styles.statsGrid}>
-            <View style={styles.statCard}>
-              <Ionicons
-                name="checkmark-done-circle"
-                size={26}
-                color="#2ecc71"
-              />
-              <Text style={styles.statLabel}>
-                Simulados{"\n"} <Text style={styles.statNumber}>2</Text>
-              </Text>
-            </View>
-
-            <View style={styles.statCard}>
-              <FontAwesome5 name="chart-line" size={22} color="#f39c12" />
-              <Text style={styles.statLabel}>Frequência</Text>
-              <Text style={styles.statValue}>95%</Text>
-            </View>
-
-            <View style={styles.statCard}>
-              <Ionicons name="trophy" size={26} color="#f1c40f" />
-              <Text style={styles.statLabel}>Média</Text>
-              <Text style={styles.statValue}>9</Text>
-            </View>
+        {/* Busca */}
+        <View style={styles.filterSection}>
+          <View style={styles.searchBox}>
+            <FontAwesome name="search" size={18} color="#999" />
+            <TextInput
+              placeholder="Buscar turma ou aluno..."
+              placeholderTextColor="#999"
+              style={styles.input}
+            />
           </View>
+        </View>
 
-          {/* SEÇÃO DE SIMULADOS */}
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              <Ionicons
-                name="document-text-outline"
-                size={16}
-                color="#4361EE"
-              />{" "}
-              Simulados
-            </Text>
+        {/* Acesso rápido */}
+        <Text style={styles.sectionTitle}>Acesso Rápido</Text>
 
-            <TouchableOpacity>
-              <Text style={styles.linkVerTodos}>Ver todos</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.courseList}>
-            <View style={styles.courseCard}>
-              <View style={styles.courseTop}>
-                <Text style={styles.courseTitle}>Matemática - Frações</Text>
-                <Text style={styles.badgeGreen}>Disponível</Text>
-              </View>
-
-              <Text style={styles.courseInfo}>15 questões</Text>
-
-              <TouchableOpacity style={styles.btnIniciar}>
-                <Text style={styles.btnIniciarText}>Iniciar</Text>
-              </TouchableOpacity>
+        <View style={styles.actionGrid}>
+          {/* Carômetro */}
+          <TouchableOpacity
+            style={styles.actionCard}
+            onPress={() => router.push("/(professor)/carometro")}
+          >
+            <View style={styles.iconCircle}>
+              <FontAwesome5 name="id-card" size={20} color={PRIMARY} />
             </View>
-          </View>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+            <Text style={styles.actionLabel}>Carômetro</Text>
+          </TouchableOpacity>
+
+          {/* Criar Simulado */}
+          <TouchableOpacity
+            style={styles.actionCard}
+            onPress={() => router.push("/(professor)/simulados")}
+          >
+            <View style={styles.iconCircle}>
+              <FontAwesome5 name="pen-square" size={20} color={PRIMARY} />
+            </View>
+            <Text style={styles.actionLabel}>Criar Simulado</Text>
+          </TouchableOpacity>
+
+          {/* Lançar Notas */}
+          <TouchableOpacity
+            style={styles.actionCard}
+            onPress={() => router.push("/(professor)/notas")}
+          >
+            <View style={styles.iconCircle}>
+              <FontAwesome5 name="file-signature" size={20} color={PRIMARY} />
+            </View>
+            <Text style={styles.actionLabel}>Lançar Notas</Text>
+          </TouchableOpacity>
+
+          {/* Frequência */}
+          <TouchableOpacity style={styles.actionCard}>
+            <View style={styles.iconCircle}>
+              <FontAwesome5 name="user-check" size={20} color={PRIMARY} />
+            </View>
+            <Text style={styles.actionLabel}>Frequência</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
-const PRIMARY = "#4361EE";
+const PRIMARY = "#4361ee";
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f8f9fd" },
+  container: {
+    flex: 1,
+    backgroundColor: "#f8f9fd",
+    overflow: "visible",
+  },
 
-  header: {
+  /* FUNDO DO HEADER (atrás de tudo) */
+  headerBackground: {
     backgroundColor: PRIMARY,
-    height: 220,
-    padding: 20,
-    paddingTop: 40,
+    paddingTop: 30,
+    paddingBottom: 120,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+
+    zIndex: 0,
+    elevation: 0,
   },
 
-  headerTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-
-  hello: { fontSize: 24, fontWeight: "bold", color: "#FFF" },
-  welcome: { color: "#E3E3E3", fontSize: 14 },
-
-  avatar: {
-    width: 55,
-    height: 55,
-    borderRadius: 50,
-    overflow: "hidden",
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "rgba(255,255,255,0.3)",
-  },
-
-  cardProgresso: {
-    backgroundColor: "#FFF",
-    marginHorizontal: 20,
-    marginTop: -70,
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-
-  progressHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginBottom: 10,
-  },
-
-  progressText: {
-    fontSize: 26,
-    color: "#1f2937",
-    fontWeight: "800",
-  },
-
-  progressSubText: { fontSize: 14, color: "#999", fontWeight: "400" },
-
-  progressBarBg: {
-    width: "100%",
-    height: 8,
-    backgroundColor: "#edf2f7",
-    borderRadius: 10,
-    marginTop: 10,
-  },
-
-  progressFill: {
-    height: "100%",
-    width: "76%",
-    backgroundColor: PRIMARY,
-    borderRadius: 10,
-  },
-
-  statsGrid: {
-    marginTop: 20,
+  /* CONTEÚDO DO HEADER (texto visível) */
+  headerContent: {
+    paddingTop: 20,
     paddingHorizontal: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    paddingBottom: 20,
+    zIndex: 5,
+    elevation: 5,
   },
-
-  statCard: {
-    width: "31%",
-    backgroundColor: "#FFF",
-    paddingVertical: 15,
-    borderRadius: 16,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.03,
-    shadowRadius: 10,
-    elevation: 2,
+  welcome: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "700",
   },
-
-  statLabel: {
-    color: "#1f2937",
-    textAlign: "center",
-    fontSize: 12,
+  subtitle: {
+    color: "white",
+    opacity: 0.9,
     marginTop: 5,
   },
 
-  statNumber: { fontSize: 16, fontWeight: "bold", color: PRIMARY },
-  statValue: { fontSize: 16, fontWeight: "bold", color: PRIMARY },
+  scrollContent: {
+    paddingBottom: 120,
+    paddingTop: 10,
+  },
 
-  sectionHeader: {
+  /* STATUS CARDS */
+  statsContainer: {
+    flexDirection: "row",
+    gap: 15,
+    marginHorizontal: 20,
+    marginTop: 5,
+    zIndex: 20,
+  },
+  statCard: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 15,
+    alignItems: "center",
+    zIndex: 20,
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+  },
+  statNum: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: PRIMARY,
+  },
+  statLabel: {
+    color: "#888",
+    marginTop: 4,
+  },
+
+  /* SEARCH */
+  filterSection: {
     paddingHorizontal: 20,
-    marginTop: 30,
-    marginBottom: 10,
+    marginTop: 18,
+  },
+  searchBox: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 12,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#eee",
+    gap: 10,
+    zIndex: 20,
+    elevation: 4,
   },
-
-  sectionTitle: { fontWeight: "700", color: "#1f2937", fontSize: 16 },
-  linkVerTodos: { fontSize: 14, color: "#4361EE" },
-
-  courseList: { paddingHorizontal: 20 },
-
-  courseCard: {
-    backgroundColor: "#FFF",
-    padding: 20,
-    borderRadius: 18,
-    elevation: 2,
-  },
-
-  courseTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-
-  courseTitle: {
-    fontWeight: "700",
-    color: "#333",
-    fontSize: 15,
-  },
-
-  badgeGreen: {
-    backgroundColor: "#d1fae5",
-    color: "#10b981",
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 6,
-    fontSize: 12,
-    fontWeight: "600",
-  },
-
-  courseInfo: { fontSize: 13, color: "#999", marginBottom: 15 },
-
-  btnIniciar: {
-    backgroundColor: PRIMARY,
-    paddingVertical: 12,
-    borderRadius: 10,
-  },
-
-  btnIniciarText: {
-    textAlign: "center",
-    color: "#FFF",
-    fontWeight: "700",
+  input: {
+    flex: 1,
     fontSize: 16,
+    color: "#333",
+  },
+
+  /* ACESSO RÁPIDO */
+  sectionTitle: {
+    marginTop: 20,
+    marginLeft: 20,
+    marginBottom: 10,
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#1f2937",
+  },
+
+  actionGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
+  },
+
+  actionCard: {
+    width: "48%",
+    backgroundColor: "#fff",
+    paddingVertical: 20,
+    borderRadius: 15,
+    alignItems: "center",
+    marginBottom: 15,
+
+    zIndex: 20,
+    elevation: 4,
+
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+  },
+
+  iconCircle: {
+    width: 55,
+    height: 55,
+    backgroundColor: "#eef2ff",
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  actionLabel: {
+    marginTop: 10,
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#1f2937",
   },
 });
