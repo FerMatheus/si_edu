@@ -1,0 +1,5 @@
+com\siedu\controller\LoginController.class
+com\siedu\SieduApplication.class
+com\siedu\model\PerfilUsuario.class
+com\siedu\service\LoginService.class
+com\siedu\model\Usuario.class

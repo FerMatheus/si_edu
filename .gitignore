@@ -1,4 +1,10 @@
+## Combined .gitignore (merged fer/main and HEAD)
+# Learn more: https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# Top-level project files
 HELP.md
+
+# Java / Maven
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -31,3 +37,43 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Node / JS / tooling
+node_modules/
+
+# Expo / React Native / Native
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# TypeScript build
+*.tsbuildinfo
+
+app-example
+
+# generated native folders
+/ios
+/android
