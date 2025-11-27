@@ -1,299 +1,272 @@
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import React from "react";
-import {
-  Alert,
-  Linking,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-type Material = {
-  id: string;
-  title: string;
-  metaBadge: string;
-  metaTag: string;
-  icon: "pdf" | "youtube" | "image" | "flask";
-  color: "blue" | "red" | "green" | "purple";
-  actionLabel: string;
-  url?: string;
-};
+export default function Carometro() {
+  const router = useRouter();
 
-const SAMPLE: Material[] = [
-  {
-    id: "1",
-    title: "Resumo de Português",
-    metaBadge: "PDF",
-    metaTag: "Gramática",
-    icon: "pdf",
-    color: "blue",
-    actionLabel: "Abrir",
-    url: "https://example.com/Resumo-Portugues.pdf",
-  },
-  {
-    id: "2",
-    title: "Vídeo: Aulão de Crase",
-    metaBadge: "Vídeo",
-    metaTag: "Português",
-    icon: "youtube",
-    color: "red",
-    actionLabel: "Assistir",
-    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  },
-  {
-    id: "3",
-    title: "Mapa Mental - Regiões",
-    metaBadge: "Img",
-    metaTag: "Geografia",
-    icon: "image",
-    color: "green",
-    actionLabel: "Ver",
-    url: undefined,
-  },
-  {
-    id: "4",
-    title: "Experiência: Fotossíntese",
-    metaBadge: "Vídeo",
-    metaTag: "Ciências",
-    icon: "flask",
-    color: "purple",
-    actionLabel: "Assistir",
-    url: undefined,
-  },
-];
+  const emojis = ["😊", "😐", "☹️"];
 
-export default function MateriaisEstudante() {
-  async function openUrl(url?: string) {
-    if (!url) {
-      Alert.alert("Não disponível", "Este material ainda não tem link.");
-      return;
-    }
-    try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) {
-        await Linking.openURL(url);
-      } else {
-        Alert.alert("Erro", "Não foi possível abrir o link.");
-      }
-    } catch (err) {
-      Alert.alert("Erro", "Não foi possível abrir o link.");
-    }
+  function EmojiSelector({ group, selected, onSelect }: any) {
+    return (
+      <View style={styles.emojiGroup}>
+        {emojis.map((emoji, index) => (
+          <TouchableOpacity key={index} onPress={() => onSelect(index)}>
+            <Text
+              style={[
+                styles.emojiBtn,
+                selected === index && styles.emojiSelected,
+              ]}
+            >
+              {emoji}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
   }
 
+  // estados dos 3 critérios
+  const [p1, setP1] = useState<number | null>(null);
+  const [p2, setP2] = useState<number | null>(null);
+  const [p3, setP3] = useState<number | null>(null);
+  const [comentario, setComentario] = useState("");
+
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#f8f9fd" }}
-      edges={["bottom"]}
-    >
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header */}
-        <View style={styles.headerSection}>
-          <View style={styles.headerTitle}>
-            <Text style={styles.headerText}>Materiais</Text>
+    <View style={{ flex: 1, backgroundColor: "#f8f9fd" }}>
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 120 }}>
+        <Text style={styles.title}>Avaliação Comportamental</Text>
+
+        {/* CARD 1 */}
+        <View style={styles.card}>
+          <View style={styles.studentHeader}>
+            <Image
+              style={styles.studentImg}
+            />
+            <View>
+              <Text style={styles.studentName}>Maria Clara</Text>
+              <Text style={styles.studentClass}>3º Ano - Turma B</Text>
+            </View>
           </View>
 
-          <TouchableOpacity>
-            <Text style={styles.linkVerTodos}>Ver todos</Text>
-          </TouchableOpacity>
-        </View>
+          {/* CRITÉRIO 1 */}
+          <View style={styles.criteriaRow}>
+            <Text style={styles.criteriaLabel}>Participação</Text>
+            <EmojiSelector group="g1" selected={p1} onSelect={setP1} />
+          </View>
 
-        {/* Materials list */}
-        <View style={styles.materialsList}>
-          {SAMPLE.map((m) => (
+          {/* CRITÉRIO 2 */}
+          <View style={styles.criteriaRow}>
+            <Text style={styles.criteriaLabel}>Responsabilidade</Text>
+            <EmojiSelector group="g2" selected={p2} onSelect={setP2} />
+          </View>
+
+          {/* CRITÉRIO 3 */}
+          <View style={styles.criteriaRow}>
+            <Text style={styles.criteriaLabel}>Sociabilidade</Text>
+            <EmojiSelector group="g3" selected={p3} onSelect={setP3} />
+          </View>
+
+          {/* COMENTÁRIO */}
+          <Text style={styles.label}>Comentários:</Text>
+          <TextInput
+            multiline
+            numberOfLines={3}
+            style={styles.textarea}
+            placeholder="Adicione observações sobre o aluno..."
+            value={comentario}
+            onChangeText={setComentario}
+          />
+
+          {/* BOTÕES */}
+          <View style={styles.buttonRow}>
             <TouchableOpacity
-              key={m.id}
-              activeOpacity={0.85}
-              style={styles.materialCard}
-              onPress={() => openUrl(m.url)}
+              style={styles.cancelBtn}
+              onPress={() => router.back()}
             >
-              <View style={[styles.iconBox, styles[`bg_${m.color}`]]}>
-                {m.icon === "pdf" && (
-                  <FontAwesome5
-                    name="file-pdf"
-                    size={20}
-                    color={stylesVars.colors[m.color].icon}
-                  />
-                )}
-                {m.icon === "youtube" && (
-                  <FontAwesome
-                    name="youtube"
-                    size={20}
-                    color={stylesVars.colors[m.color].icon}
-                  />
-                )}
-                {m.icon === "image" && (
-                  <FontAwesome5
-                    name="image"
-                    size={20}
-                    color={stylesVars.colors[m.color].icon}
-                  />
-                )}
-                {m.icon === "flask" && (
-                  <FontAwesome5
-                    name="flask"
-                    size={20}
-                    color={stylesVars.colors[m.color].icon}
-                  />
-                )}
-              </View>
-
-              <View style={styles.cardContent}>
-                <Text style={styles.cardTitle}>{m.title}</Text>
-                <View style={styles.cardMeta}>
-                  <View style={styles.badge}>
-                    <Text style={styles.badgeText}>{m.metaBadge}</Text>
-                  </View>
-                  <Text style={styles.metaTag}>{m.metaTag}</Text>
-                </View>
-              </View>
-
-              <View>
-                <Text style={styles.actionText}>{m.actionLabel}</Text>
-              </View>
+              <Text style={styles.cancelText}>Sair</Text>
             </TouchableOpacity>
-          ))}
+
+            <TouchableOpacity
+              style={styles.saveBtn}
+              onPress={() => alert("Avaliação salva!")}
+            >
+              <Text style={styles.saveText}>Salvar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
-        {/* spacer to avoid content under tab bar */}
-        <View style={{ height: 32 }} />
+        {/* CARD 2 */}
+        <View style={styles.card}>
+          <View style={styles.studentHeader}>
+            <Image
+              style={styles.studentImg}
+            />
+            <View>
+              <Text style={styles.studentName}>João Pedro</Text>
+              <Text style={styles.studentClass}>3º Ano - Turma B</Text>
+            </View>
+          </View>
+
+          <Text style={styles.pending}>Avaliação pendente...</Text>
+        </View>
       </ScrollView>
-    </SafeAreaView>
+
+      {/* NAVBAR */}
+      <View style={styles.bottomNav}>
+        <NavItem icon="🏠" label="Home" active={false} onPress={() => {}} />
+        <NavItem icon="👥" label="Carômetro" active={true} onPress={() => {}} />
+        <NavItem icon="💻" label="Simulados" active={false} onPress={() => {}} />
+        <NavItem icon="✏️" label="Notas" active={false} onPress={() => {}} />
+        <NavItem icon="📊" label="Relatórios" active={false} onPress={() => {}} />
+      </View>
+    </View>
   );
 }
 
-const stylesVars = {
-  PRIMARY: "#4361EE",
-  BG: "#f8f9fd",
-  white: "#ffffff",
-  textDark: "#1f2937",
-  textGrey: "#9ca3af",
-  colors: {
-    blue: { bg: "#eef2ff", icon: "#4361ee" },
-    red: { bg: "#fef2f2", icon: "#ef4444" },
-    green: { bg: "#d1fae5", icon: "#10b981" },
-    purple: { bg: "#f3e8ff", icon: "#8b5cf6" },
-  },
-};
+function NavItem({ icon, label, active, onPress }: any) {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.navItem}>
+      <Text style={[styles.navIcon, active && { color: "#4361ee" }]}>{icon}</Text>
+      <Text style={[styles.navLabel, active && { color: "#4361ee" }]}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: stylesVars.BG },
-
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 120,
-  },
-  headerSection: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 26,
-    marginTop: 12,
-  },
-
-  headerTitle: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-
-  headerText: {
+  title: {
     fontSize: 22,
-    fontWeight: "700",
-    color: stylesVars.textDark,
-    marginLeft: 0,
+    color: "#333",
+    fontWeight: "bold",
+    marginBottom: 15,
   },
-
-  linkVerTodos: {
-    fontSize: 14,
-    color: stylesVars.PRIMARY,
-    fontWeight: "600",
-  },
-
-  materialsList: {
-    flexDirection: "column",
-    gap: 12, // modern RN versions support gap; if not, marginBottom on cards
-  },
-
-  materialCard: {
-    backgroundColor: stylesVars.white,
-    borderRadius: 16,
-    padding: 14,
-    flexDirection: "row",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.03,
-    shadowRadius: 8,
-    elevation: 2,
-    borderWidth: 1,
-    borderColor: "transparent",
-    marginBottom: 12,
-  },
-
-  iconBox: {
-    width: 50,
-    height: 50,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 14,
-    flexShrink: 0,
-  },
-
-  // background color helpers
-  bg_blue: { backgroundColor: stylesVars.colors.blue.bg },
-  bg_red: { backgroundColor: stylesVars.colors.red.bg },
-  bg_green: { backgroundColor: stylesVars.colors.green.bg },
-  bg_purple: { backgroundColor: stylesVars.colors.purple.bg },
-
-  cardContent: {
-    flex: 1,
-    justifyContent: "center",
-  },
-
-  cardTitle: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: stylesVars.textDark,
-    marginBottom: 6,
-    lineHeight: 20,
-  },
-
-  cardMeta: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
+  card: {
     backgroundColor: "#fff",
-    borderWidth: 1,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  studentHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 15,
+    paddingBottom: 15,
+    borderBottomWidth: 1,
     borderColor: "#eee",
   },
-
-  badgeText: {
-    fontSize: 11,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    color: "#333",
+  studentImg: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#4361ee",
   },
-
-  metaTag: {
+  studentName: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  studentClass: {
     fontSize: 13,
-    color: stylesVars.textGrey,
+    color: "#888",
+  },
+  criteriaRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 18,
+  },
+  criteriaLabel: {
+    fontWeight: "600",
+    fontSize: 15,
+    color: "#555",
+  },
+  emojiGroup: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  emojiBtn: {
+    fontSize: 32,
+    opacity: 0.4,
+  },
+  emojiSelected: {
+    opacity: 1,
+    transform: [{ scale: 1.2 }],
+  },
+  label: {
+    marginTop: 15,
+    fontWeight: "600",
+    color: "#555",
+  },
+  textarea: {
+    backgroundColor: "#fafafa",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 10,
+    padding: 12,
+    marginTop: 8,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 15,
+  },
+  cancelBtn: {
+    flex: 1,
+    backgroundColor: "#f3f4f6",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  saveBtn: {
+    flex: 1,
+    backgroundColor: "#4361ee",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  cancelText: { color: "#666", fontWeight: "bold" },
+  saveText: { color: "white", fontWeight: "bold" },
+  pending: {
+    textAlign: "center",
+    color: "#999",
+    paddingTop: 20,
+    fontStyle: "italic",
   },
 
-  actionText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: stylesVars.textDark,
+  bottomNav: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    height: 70,
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: -5 },
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  navItem: {
+    alignItems: "center",
+  },
+  navIcon: {
+    fontSize: 20,
+    color: "#c4c4c4",
+  },
+  navLabel: {
+    fontSize: 11,
+    color: "#c4c4c4",
+    marginTop: 2,
   },
 });
