@@ -1,8 +1,12 @@
+import PrivacyModal from "@/components/PrivacyModal";
+import TermsModal from "@/components/TermsModal";
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function WelcomeScreen() {
+  const [showTerms, setShowTerms] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
   return (
     <View style={styles.container}>
       {/* LOGO DO PROJETO */}
@@ -25,11 +29,23 @@ export default function WelcomeScreen() {
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 
-      {/* TERMOS */}
-      <View style={styles.termsView}>
-        <Text style={styles.termsText}>Termos de uso</Text>
-        <Text style={styles.termsText}>Política de privacidade</Text>
-      </View>
+      {/* Termos e Política de Privacidade */}
+      <Text style={styles.terms}>
+        <Text style={styles.termsLink} onPress={() => setShowTerms(true)}>
+          Termos de uso
+        </Text>{" "}
+        e{" "}
+        <Text style={styles.termsLink} onPress={() => setShowPrivacy(true)}>
+          Política de privacidade
+        </Text>
+      </Text>
+
+      {/* Modais */}
+      <TermsModal visible={showTerms} onClose={() => setShowTerms(false)} />
+      <PrivacyModal
+        visible={showPrivacy}
+        onClose={() => setShowPrivacy(false)}
+      />
     </View>
   );
 }
@@ -85,14 +101,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
-  termsView: {
-    flexDirection: "row",
-    gap: 10,
+  terms: {
+    fontSize: 10,
+    color: "#333",
+    textAlign: "center",
+    paddingHorizontal: 20,
   },
-
-  termsText: {
-    fontSize: 12,
-    color: "#005f73",
+  termsLink: {
     textDecorationLine: "underline",
+    color: "#007992ff",
+    fontWeight: "bold",
   },
 });

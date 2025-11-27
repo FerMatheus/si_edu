@@ -1,3 +1,5 @@
+import PrivacyModal from "@/components/PrivacyModal";
+import TermsModal from "@/components/TermsModal";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -12,6 +14,8 @@ export default function Login() {
   const [tipoUsuario, setTipoUsuario] = useState<"estudante" | "professor">(
     "estudante"
   );
+  const [showTerms, setShowTerms] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -88,6 +92,24 @@ export default function Login() {
       >
         <Text style={styles.btnEntrarTexto}>Entrar</Text>
       </TouchableOpacity>
+
+      {/* Termos e Política de Privacidade */}
+      <Text style={styles.terms}>
+        <Text style={styles.termsLink} onPress={() => setShowTerms(true)}>
+          Termos de uso
+        </Text>{" "}
+        e{" "}
+        <Text style={styles.termsLink} onPress={() => setShowPrivacy(true)}>
+          Política de privacidade
+        </Text>
+      </Text>
+
+      {/* Modais */}
+      <TermsModal visible={showTerms} onClose={() => setShowTerms(false)} />
+      <PrivacyModal
+        visible={showPrivacy}
+        onClose={() => setShowPrivacy(false)}
+      />
     </View>
   );
 }
@@ -180,13 +202,24 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: "#4361EE",
     borderRadius: 10,
-    marginTop: 10,
+    marginVertical: 10,
   },
 
   btnEntrarTexto: {
     color: "#FFF",
     fontSize: 16,
     textAlign: "center",
+    fontWeight: "bold",
+  },
+  terms: {
+    fontSize: 10,
+    color: "#333",
+    textAlign: "center",
+    paddingHorizontal: 20,
+  },
+  termsLink: {
+    textDecorationLine: "underline",
+    color: "#007992ff",
     fontWeight: "bold",
   },
 });

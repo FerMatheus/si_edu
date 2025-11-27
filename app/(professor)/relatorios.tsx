@@ -1,278 +1,204 @@
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React from "react";
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function HomeEstudante() {
+export default function Relatorios() {
+  const router = useRouter();
+
+  const relatorios = [
+    {
+      id: 1,
+      nome: "Maria Clara",
+      turma: "Turma B",
+      media: 8.5,
+      freq: "98%",
+      mediaColor: "#10b981",
+      icon: "📈",
+    },
+    {
+      id: 2,
+      nome: "João Pedro",
+      turma: "Turma B",
+      media: 5.2,
+      freq: "80%",
+      mediaColor: "#ef4444",
+      icon: "📊",
+    },
+  ];
+
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: "#f8f9fd" }}
-      edges={["bottom"]}
-    >
-      <View style={styles.container}>
-        {/* SAFE AREA PARA PROTEGER APENAS A PARTE INFERIOR */}
-        <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
-          {/* HEADER */}
-          <View style={styles.header}>
-            <View style={styles.headerTop}>
+    <View style={{ flex: 1, backgroundColor: "#f8f9fd" }}>
+      <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 120 }}>
+        <Text style={styles.title}>Relatórios Individuais</Text>
+
+        {relatorios.map((item) => (
+          <View key={item.id} style={styles.reportCard}>
+            <View style={styles.studentHeader}>
               <View>
-                <Text style={styles.hello}>Olá, Carlito</Text>
-                <Text style={styles.welcome}>Bem-vindo!</Text>
+                <Text style={styles.studentName}>{item.nome}</Text>
+                <Text style={styles.studentClass}>{item.turma}</Text>
               </View>
 
-              <View style={styles.avatar}>
-                <Image
-                  source={{
-                    uri: "https://api.dicebear.com/7.x/avataaars/png?seed=Felix",
-                  }}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </View>
-            </View>
-          </View>
-
-          {/* CARD DE PROGRESSO */}
-          <View style={styles.cardProgresso}>
-            <View style={styles.progressHeader}>
-              <Text style={{ fontWeight: "600", color: "#4361EE" }}>
-                Progresso
-              </Text>
-            </View>
-
-            <Text style={styles.progressText}>
-              46min <Text style={styles.progressSubText}>/ 60min</Text>
-            </Text>
-
-            <View style={styles.progressBarBg}>
-              <View style={styles.progressFill}></View>
-            </View>
-          </View>
-
-          {/* GRID DE ESTATÍSTICAS */}
-          <View style={styles.statsGrid}>
-            <View style={styles.statCard}>
-              <Ionicons
-                name="checkmark-done-circle"
-                size={26}
-                color="#2ecc71"
-              />
-              <Text style={styles.statLabel}>
-                Simulados{"\n"} <Text style={styles.statNumber}>2</Text>
-              </Text>
-            </View>
-
-            <View style={styles.statCard}>
-              <FontAwesome5 name="chart-line" size={22} color="#f39c12" />
-              <Text style={styles.statLabel}>Frequência</Text>
-              <Text style={styles.statValue}>95%</Text>
-            </View>
-
-            <View style={styles.statCard}>
-              <Ionicons name="trophy" size={26} color="#f1c40f" />
-              <Text style={styles.statLabel}>Média</Text>
-              <Text style={styles.statValue}>9</Text>
-            </View>
-          </View>
-
-          {/* SEÇÃO DE SIMULADOS */}
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              <Ionicons
-                name="document-text-outline"
-                size={16}
-                color="#4361EE"
-              />{" "}
-              Simulados
-            </Text>
-
-            <TouchableOpacity>
-              <Text style={styles.linkVerTodos}>Ver todos</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.courseList}>
-            <View style={styles.courseCard}>
-              <View style={styles.courseTop}>
-                <Text style={styles.courseTitle}>Matemática - Frações</Text>
-                <Text style={styles.badgeGreen}>Disponível</Text>
-              </View>
-
-              <Text style={styles.courseInfo}>15 questões</Text>
-
-              <TouchableOpacity style={styles.btnIniciar}>
-                <Text style={styles.btnIniciarText}>Iniciar</Text>
+              <TouchableOpacity
+                style={styles.btnPDF}
+                onPress={() => alert("Gerando PDF...")}
+              >
+                <Text style={{ color: "white", fontSize: 12 }}>📄 PDF</Text>
               </TouchableOpacity>
             </View>
+
+            <View style={styles.infoRow}>
+              <Text style={styles.infoText}>
+                Média Geral:{" "}
+                <Text style={{ fontWeight: "bold", color: item.mediaColor }}>
+                  {item.media}
+                </Text>
+              </Text>
+
+              <Text style={styles.infoText}>
+                Frequência: <Text style={{ fontWeight: "bold" }}>{item.freq}</Text>
+              </Text>
+            </View>
+
+            <View style={styles.chartPlaceholder}>
+              <Text style={{ fontSize: 18, color: "#4361ee" }}>{item.icon}</Text>
+              <Text style={{ color: "#4361ee", marginLeft: 8 }}>
+                [Gráfico de Desempenho]
+              </Text>
+            </View>
           </View>
-        </ScrollView>
+        ))}
+      </ScrollView>
+
+      {/* NAVBAR */}
+      <View style={styles.bottomNav}>
+        <NavItem icon="🏠" label="Home" active={false} />
+        <NavItem icon="👥" label="Carômetro" active={false} />
+        <NavItem icon="💻" label="Simulados" active={false} />
+        <NavItem icon="✏️" label="Notas" active={false} />
+        <NavItem icon="📊" label="Relatórios" active={true} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
-const PRIMARY = "#4361EE";
+function NavItem({ icon, label, active }: any) {
+  return (
+    <TouchableOpacity style={styles.navItem}>
+      <Text
+        style={[styles.navIcon, active && { color: "#4361ee" }]}
+      >
+        {icon}
+      </Text>
+      <Text
+        style={[styles.navLabel, active && { color: "#4361ee" }]}
+      >
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#f8f9fd" },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 20,
+  },
 
-  header: {
-    backgroundColor: PRIMARY,
-    height: 220,
+  reportCard: {
+    backgroundColor: "white",
     padding: 20,
-    paddingTop: 40,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-  },
-
-  headerTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-
-  hello: { fontSize: 24, fontWeight: "bold", color: "#FFF" },
-  welcome: { color: "#E3E3E3", fontSize: 14 },
-
-  avatar: {
-    width: 55,
-    height: 55,
-    borderRadius: 50,
-    overflow: "hidden",
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "rgba(255,255,255,0.3)",
-  },
-
-  cardProgresso: {
-    backgroundColor: "#FFF",
-    marginHorizontal: 20,
-    marginTop: -70,
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-
-  progressHeader: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginBottom: 10,
-  },
-
-  progressText: {
-    fontSize: 26,
-    color: "#1f2937",
-    fontWeight: "800",
-  },
-
-  progressSubText: { fontSize: 14, color: "#999", fontWeight: "400" },
-
-  progressBarBg: {
-    width: "100%",
-    height: 8,
-    backgroundColor: "#edf2f7",
-    borderRadius: 10,
-    marginTop: 10,
-  },
-
-  progressFill: {
-    height: "100%",
-    width: "76%",
-    backgroundColor: PRIMARY,
-    borderRadius: 10,
-  },
-
-  statsGrid: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  statCard: {
-    width: "31%",
-    backgroundColor: "#FFF",
-    paddingVertical: 15,
-    borderRadius: 16,
-    alignItems: "center",
+    borderRadius: 15,
+    marginBottom: 15,
     shadowColor: "#000",
     shadowOpacity: 0.03,
-    shadowRadius: 10,
+    shadowRadius: 5,
     elevation: 2,
   },
 
-  statLabel: {
-    color: "#1f2937",
-    textAlign: "center",
-    fontSize: 12,
-    marginTop: 5,
-  },
-
-  statNumber: { fontSize: 16, fontWeight: "bold", color: PRIMARY },
-  statValue: { fontSize: 16, fontWeight: "bold", color: PRIMARY },
-
-  sectionHeader: {
-    paddingHorizontal: 20,
-    marginTop: 30,
+  studentHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "#eee",
+    paddingBottom: 10,
     marginBottom: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
+  },
+  studentName: {
+    fontSize: 17,
+    fontWeight: "bold",
+  },
+  studentClass: {
+    fontSize: 13,
+    color: "#888",
   },
 
-  sectionTitle: { fontWeight: "700", color: "#1f2937", fontSize: 16 },
-  linkVerTodos: { fontSize: 14, color: "#4361EE" },
-
-  courseList: { paddingHorizontal: 20 },
-
-  courseCard: {
-    backgroundColor: "#FFF",
-    padding: 20,
-    borderRadius: 18,
-    elevation: 2,
-  },
-
-  courseTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-
-  courseTitle: {
-    fontWeight: "700",
-    color: "#333",
-    fontSize: 15,
-  },
-
-  badgeGreen: {
-    backgroundColor: "#d1fae5",
-    color: "#10b981",
+  btnPDF: {
+    backgroundColor: "#ef4444",
+    paddingVertical: 5,
     paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 6,
-    fontSize: 12,
-    fontWeight: "600",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  courseInfo: { fontSize: 13, color: "#999", marginBottom: 15 },
+  infoRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    fontSize: 14,
+  },
+  infoText: {
+    fontSize: 14,
+    color: "#555",
+  },
 
-  btnIniciar: {
-    backgroundColor: PRIMARY,
-    paddingVertical: 12,
+  chartPlaceholder: {
+    backgroundColor: "#f0f4ff",
+    height: 100,
     borderRadius: 10,
+    marginTop: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  btnIniciarText: {
-    textAlign: "center",
-    color: "#FFF",
-    fontWeight: "700",
-    fontSize: 16,
+  /* NAVBAR */
+  bottomNav: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    height: 70,
+    backgroundColor: "white",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: -5 },
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  navItem: {
+    alignItems: "center",
+  },
+  navIcon: {
+    fontSize: 20,
+    color: "#c4c4c4",
+  },
+  navLabel: {
+    fontSize: 11,
+    color: "#c4c4c4",
   },
 });
+

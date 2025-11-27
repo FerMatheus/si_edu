@@ -27,7 +27,7 @@ export default function Simulados() {
           </View>
 
           <Text style={styles.examTitle}>Simulado Geral #1</Text>
-          <Text style={styles.examInfo}>10 Questões • Nível Médio</Text>
+          <Text style={styles.examInfo}>15 Questões • Nível Médio</Text>
 
           <TouchableOpacity
             style={styles.btnPrimary}

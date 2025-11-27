@@ -32,14 +32,14 @@ export default function Quiz() {
   const [selected, setSelected] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(60);
 
   const handleNext = useCallback(() => {
     setSelected(null);
 
     if (current + 1 < QUESTIONS.length) {
       setCurrent((prev) => prev + 1);
-      setTime(30);
+      setTime(60);
     } else {
       setFinished(true);
     }
@@ -61,7 +61,7 @@ export default function Quiz() {
       setTime((t) => {
         if (t <= 1) {
           handleNext();
-          return 30;
+          return 60;
         }
         return t - 1;
       });

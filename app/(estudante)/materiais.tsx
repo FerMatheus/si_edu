@@ -31,7 +31,7 @@ const SAMPLE: Material[] = [
     icon: "pdf",
     color: "blue",
     actionLabel: "Abrir",
-    url: "https://example.com/Resumo-Portugues.pdf",
+    url: "https://drive.google.com/file/d/1shcVyrt98swDlZi0a3LHBgzbWNDAPySs/view?usp=sharing",
   },
   {
     id: "2",
@@ -41,7 +41,7 @@ const SAMPLE: Material[] = [
     icon: "youtube",
     color: "red",
     actionLabel: "Assistir",
-    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    url: "https://youtu.be/aS-ZDEQTK5M?si=zNctzQrb-ullyscx",
   },
   {
     id: "3",
@@ -51,7 +51,7 @@ const SAMPLE: Material[] = [
     icon: "image",
     color: "green",
     actionLabel: "Ver",
-    url: undefined,
+    url: "https://mentalmapsbrasil.com.br/geografia/regioes-brasileiras-mapas-mentais-geografia/",
   },
   {
     id: "4",
@@ -61,7 +61,7 @@ const SAMPLE: Material[] = [
     icon: "flask",
     color: "purple",
     actionLabel: "Assistir",
-    url: undefined,
+    url: "https://youtu.be/fHC6M7xncds?si=4U352N7GI1SnJhVL",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function MateriaisEstudante() {
       } else {
         Alert.alert("Erro", "Não foi possível abrir o link.");
       }
-    } catch (err) {
+    } catch {
       Alert.alert("Erro", "Não foi possível abrir o link.");
     }
   }

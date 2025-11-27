@@ -15,7 +15,10 @@ export default function PerfilAluno() {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+      {/* Topo curvo */}
+
+      <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
+        <View style={styles.headerBackground} />
         {/* Avatar + Nome */}
         <View style={styles.profileInfo}>
           <View style={styles.avatarWrapper}>
@@ -31,11 +34,11 @@ export default function PerfilAluno() {
           <Text style={styles.studentMatricula}>Matrícula: 023-336</Text>
         </View>
 
-        {/* Card de detalhes */}
+        {/* Card principal */}
         <View style={styles.card}>
           <View style={styles.row}>
             <View style={styles.rowLabel}>
-              <FontAwesome5 name="graduation-cap" size={18} color="#9ca3af" />
+              <FontAwesome5 name="graduation-cap" size={18} color="#3b82f6" />
               <Text style={styles.labelText}>Série</Text>
             </View>
             <Text style={styles.rowValue}>3º Ano</Text>
@@ -43,19 +46,39 @@ export default function PerfilAluno() {
 
           <View style={styles.row}>
             <View style={styles.rowLabel}>
-              <Ionicons name="people" size={20} color="#9ca3af" />
+              <Ionicons name="people" size={20} color="#22c55e" />
               <Text style={styles.labelText}>Turma Alocada</Text>
             </View>
             <Text style={styles.rowValue}>Turma B - Matutino</Text>
           </View>
 
-          <View style={styles.row}>
+          <View style={styles.rowLast}>
             <View style={styles.rowLabel}>
-              <MaterialIcons name="school" size={20} color="#9ca3af" />
+              <MaterialIcons name="school" size={20} color="#f97316" />
               <Text style={styles.labelText}>Turno</Text>
             </View>
             <Text style={styles.rowValue}>Manhã</Text>
           </View>
+        </View>
+
+        {/* Ações rápidas */}
+        <View style={styles.actionsBox}>
+          <Text style={styles.actionTitle}>Ações rápidas</Text>
+
+          <TouchableOpacity style={styles.actionItem}>
+            <Ionicons name="lock-closed-outline" size={22} color="#4361ee" />
+            <Text style={styles.actionText}>Alterar senha</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionItem}>
+            <Ionicons name="notifications-outline" size={22} color="#4361ee" />
+            <Text style={styles.actionText}>Configurar notificações</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.actionItem}>
+            <Ionicons name="person-circle-outline" size={22} color="#4361ee" />
+            <Text style={styles.actionText}>Dados cadastrais</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Botão Sair */}
@@ -63,52 +86,12 @@ export default function PerfilAluno() {
           style={styles.logoutBtn}
           onPress={() => router.replace("/")}
         >
-          <Ionicons name="log-out-outline" size={22} color="#ef4444" />
+          <View style={styles.logoutIconCircle}>
+            <Ionicons name="log-out-outline" size={20} color="#ef4444" />
+          </View>
           <Text style={styles.logoutText}>Sair do App</Text>
         </TouchableOpacity>
       </ScrollView>
-
-      {/* Bottom Navbar */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          onPress={() => router.push("/(estudante)/home")}
-          style={styles.navItem}
-        >
-          <Ionicons name="home-outline" size={24} color="#c4c4c4" />
-          <Text style={styles.navLabel}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => router.push("/(estudante)/materiais")}
-          style={styles.navItem}
-        >
-          <Ionicons name="book-outline" size={24} color="#c4c4c4" />
-          <Text style={styles.navLabel}>Materiais</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => router.push("/(estudante)/simulados")}
-          style={styles.navItem}
-        >
-          <Ionicons name="clipboard-outline" size={24} color="#c4c4c4" />
-          <Text style={styles.navLabel}>Simulados</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => router.push("/(estudante)/notas")}
-          style={styles.navItem}
-        >
-          <Ionicons name="document-text-outline" size={24} color="#c4c4c4" />
-          <Text style={styles.navLabel}>Notas</Text>
-        </TouchableOpacity>
-
-        {/* Aba ativa */}
-        <TouchableOpacity style={styles.navItemActive}>
-          <Ionicons name="person" size={24} color="#4361ee" />
-          <Text style={[styles.navLabel, { color: "#4361ee" }]}>Perfil</Text>
-          <View style={styles.activeIndicator} />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
@@ -121,22 +104,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f9fd",
   },
 
+  headerBackground: {
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    height: 180,
+    backgroundColor: PRIMARY,
+    borderBottomLeftRadius: 60,
+    borderBottomRightRadius: 60,
+  },
+
   profileInfo: {
     alignItems: "center",
-    marginTop: 60,
+    marginTop: 50,
     zIndex: 10,
   },
 
   avatarWrapper: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     backgroundColor: "#fff",
-    borderWidth: 4,
+    borderWidth: 5,
     borderColor: "#fff",
     overflow: "hidden",
-    elevation: 5,
-    zIndex: 10,
+    elevation: 6,
   },
 
   avatar: {
@@ -146,26 +138,25 @@ const styles = StyleSheet.create({
 
   studentName: {
     marginTop: 15,
-    fontSize: 22,
-    fontWeight: "700",
+    fontSize: 24,
+    fontWeight: "800",
     color: "#1f2937",
   },
 
   studentMatricula: {
     fontSize: 14,
     marginTop: 4,
-    color: "#888",
+    color: "#6b7280",
   },
 
+  /* Card principal */
   card: {
     backgroundColor: "#fff",
     marginHorizontal: 20,
     marginTop: 25,
     borderRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     elevation: 3,
   },
 
@@ -174,7 +165,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderColor: "#f0f0f0",
+    borderColor: "#f1f1f1",
+  },
+
+  rowLast: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 15,
   },
 
   rowLabel: {
@@ -184,73 +181,72 @@ const styles = StyleSheet.create({
   },
 
   labelText: {
-    color: "#9ca3af",
+    color: "#6b7280",
     fontSize: 14,
   },
 
   rowValue: {
     color: "#1f2937",
-    fontWeight: "600",
+    fontWeight: "700",
     fontSize: 16,
   },
 
+  /* Ações rápidas */
+  actionsBox: {
+    marginTop: 35,
+    marginHorizontal: 20,
+  },
+
+  actionTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#1f2937",
+    marginBottom: 15,
+  },
+
+  actionItem: {
+    backgroundColor: "#fff",
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 12,
+    elevation: 2,
+  },
+
+  actionText: {
+    fontSize: 15,
+    color: "#374151",
+    fontWeight: "500",
+  },
+
+  /* Logout */
   logoutBtn: {
-    backgroundColor: "#fee2e2",
+    backgroundColor: "#ffe4e6",
     marginTop: 30,
     marginHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 12,
     flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+
+  logoutIconCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    marginLeft: 10,
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    gap: 10,
   },
 
   logoutText: {
     color: "#ef4444",
     fontSize: 16,
     fontWeight: "700",
-  },
-
-  bottomNav: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: 70,
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    elevation: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-  },
-
-  navItem: {
-    alignItems: "center",
-    width: "20%",
-  },
-
-  navLabel: {
-    fontSize: 12,
-    marginTop: 3,
-    color: "#c4c4c4",
-  },
-
-  navItemActive: {
-    alignItems: "center",
-    width: "20%",
-  },
-
-  activeIndicator: {
-    position: "absolute",
-    top: 0,
-    width: 20,
-    height: 3,
-    backgroundColor: PRIMARY,
-    borderRadius: 2,
   },
 });
